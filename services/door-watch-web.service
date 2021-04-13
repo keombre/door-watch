@@ -3,9 +3,9 @@ Description=Door Watch Web
 After=network.target
 
 [Service]
-User=pi
+User=root
 WorkingDirectory=/opt/door-watch
-ExecStart=/opt/door-watch/venv/bin/flask run --host=0.0.0.0 --port=80
+ExecStart=/opt/door-watch/venv/bin/python -m flask run --host=0.0.0.0 --port=80
 Restart=always
 
 [Install]
