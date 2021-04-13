@@ -4,6 +4,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 db = DB()
+db.seed()
 
 @app.route('/')
 def index():

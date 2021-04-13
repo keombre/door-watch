@@ -3,15 +3,13 @@ import sqlite3
 class DB:
     @classmethod
     def get_db(cls):
-        con = sqlite3.connect("./db.sqlite")
-        cls.__seed(con)
-        return con
+        return sqlite3.connect("./db.sqlite")
 
-    @staticmethod
-    def __seed(db):
-        cur = db.cursor()
-        cur.execute('CREATE TABLE IF NOT EXISTS entries (date INTEGER NOT NULL, read INTEGER NOT NULL DEFAULT 0);')
-        db.commit()
+    @classmethod
+    def seed(cls):
+        con = cls.get_db()
+        con.cursor().execute('CREATE TABLE IF NOT EXISTS entries (date INTEGER NOT NULL, read INTEGER NOT NULL DEFAULT 0);')
+        con.commit()
 
     @classmethod
     def add_entry(cls, date):
@@ -32,6 +30,7 @@ class DB:
         con = cls.get_db()
         con.cursor().execute('UPDATE entries SET read = 1 WHERE rowid = ?;', (id,))
         con.commit()
+
     @classmethod
     def mark_unread(cls, id):
         con = cls.get_db()
