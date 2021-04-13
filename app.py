@@ -9,8 +9,8 @@ db.seed()
 @app.route('/')
 def index():
     page = request.args.get('page', 0, int)
-    entries = [(e[0], datetime.strptime(e[1], "%Y-%m-%d %H:%M:%S.%f").strftime("%X %d. %m. %Y"), e[2]) for e in db.get_entries(page)]
-    pages = int(db.count_entries()[0]/10)
+    entries = [(e[0], datetime.strptime(e[1], "%Y-%m-%d %H:%M:%S.%f").strftime("%X %d. %m. %Y"), e[2]) for e in db.get_entries(page, 20)]
+    pages = int(db.count_entries()[0]/20)
     return render_template("index.html", entries=entries, pages=pages, page=page)
 
 @app.route('/add', methods=['POST'])
