@@ -1,0 +1,12 @@
+[Unit]
+Description=Door Watch
+After=door-watch-service.target
+
+[Service]
+User=pi
+WorkingDirectory=/opt/door-watch
+ExecStart=python3 button.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %} Index {% endblock %}
+{% block content %}
+{% if entries %}
+<table class="table table-sm text-center">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Time</th>
+        <th scope="col" style="width: 150px">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for line in entries %}
+        <tr{% if line[2] != 1 %} class="table-warning"{% endif %}>
+            <td>{{ line[0] }}</td>
+            <td>{{ line[1] }}</td>
+            <td>
+                {% if line[2] == 0 %}
+                    <button class="btn btn-warning btn-sm" onclick="mark_read({{ line[0] }})">Mark as read</button>
+                {% else %}
+                    <button class="btn btn-secondary btn-sm" onclick="mark_unread({{ line[0] }})">Mark as unread</button>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% for i in range(0, pages+1) %}
+            <li class="page-item{% if page == i %} active{% endif %}">
+                <a class="page-link" href="?page={{ i }}">{{ i+1 }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+{% else %}
+<div class="text-center">No entries</div>
+{% endif %}
+
+<form id="fm" method="POST"></form>
+{% endblock %}
+{% block script %}
+<script>
+function mark_read(id) {
+    const e = document.getElementById('fm')
+    e.action = "/read?id=" + id + "&page={{ page }}"
+    e.submit()
+}
+function mark_unread(id) {
+    const e = document.getElementById('fm')
+    e.action = "/unread?id=" + id + "&page={{ page }}"
+    e.submit()
+}
+</script>
+{% endblock %}
